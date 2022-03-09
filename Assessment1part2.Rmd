@@ -1,0 +1,47 @@
+---
+title: "Assessment1 part1"
+author: "Vishnu"
+date: "`r Sys.Date()`"
+output: html_document
+---
+#part1
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# RMarkdown editing 
+
+** R Markdown is a file format for making dynamic documents with R. 
+* An R Markdown document is written in markdown an easy-to-write plain text format and contains chunks of embedded R code.
+
+This text is *Italic letters* 
+
+This text is **Bold letters **
+
+### Click bellow to learn a lesson about RMarkdown
+
+* visit : https://rmarkdown.rstudio.com/lesson-8.html 
+
+##or 
+
+**visit: [click here](https://rmarkdown.rstudio.com/lesson-8.html )
+
+```{r}
+library(tidyverse)
+fastfood <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
+
+```
+
+
+```{r}
+library(data.table)
+head(fastfood,10)
+```
+
+```{r}
+library(knitr)
+kable(fastfood[1:10,1:5])
+
+```
+
+# Use filter function
