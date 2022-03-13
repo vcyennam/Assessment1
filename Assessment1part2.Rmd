@@ -8,9 +8,7 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
 # RMarkdown editing 
-
 ** R Markdown is a file format for making dynamic documents with R. 
 * An R Markdown document is written in markdown an easy-to-write plain text format and contains chunks of embedded R code.
 
@@ -28,8 +26,12 @@ This text is **Bold letters **
 
 ```{r}
 library(tidyverse)
-fastfood <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
 
+
+#install.packages("lubridate")
+library(lubridate)
+library(dplyr)
+fastfood <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2018/2018-09-04/fastfood_calories.csv")
 ```
 
 
@@ -44,4 +46,51 @@ kable(fastfood[1:10,1:5])
 
 ```
 
-# Use filter function
+```{r}
+filt_data <- filter(fastfood, calories > 1000)
+head(filt_data)
+```
+
+```{r}
+library(dplyr)
+filt_data <- filter(fastfood, total_fat > 40 , total_carb > 80)
+dont_eat_this <- filt_data
+head(dont_eat_this)
+
+```
+
+```{r}
+#install.packages("skimr")
+library(skimr)
+head(fastfood)
+
+fastfood %>%
+  select(restaurant,calories, total_fat,total_carb)%>%
+  mutate(heavyfoods = case_when(calories > 500 ~ "heavy", calories < 250 ~ "low", TRUE ~ "average"))
+count(fastfood)
+skim(fastfood)
+```
+
+```{r}
+fastfood %>%
+  count(restaurant, sort = TRUE, name = "observations")%>%
+top_n(10)
+```
+```{r}
+fastfood %>%
+  group_by(restaurant) %>%
+  summarise(averagecal = sum(calories), max_fat = max(total_fat), min_cholesterol = min(cholesterol)) %>%
+  ungroup() %>%
+  kable()
+```
+```{r}
+
+fastfood %>%
+
+  ggplot(aes(restaurant, total_fat, fill = restaurant)) +
+  geom_col() +
+  coord_flip()
+  # Data viz will be more appealing to look into the business. And, it is easy to understand through graphics and charts when compared to a written document comprising text and numbers. Professional way.
+  
+```
+
